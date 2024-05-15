@@ -1,0 +1,120 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Lab2
+{
+    internal class Program
+    {
+        class Pho
+        {
+            private float thit, pho, hanh;
+            private static float giathit = 15000,giapho = 10000,giahanh=2000;
+
+            // Constructor without parameters
+            public Pho()
+            {
+                thit = 0;
+                pho = 0;
+                hanh = 0;
+            }
+
+            // Constructor with parameters
+            public Pho(float thit, float pho, float hanh)
+            {
+                this.thit = thit;
+                this.pho = pho;
+                this.hanh = hanh;
+            }
+
+            // Function to calculate the price of a Pho bowl
+            public float tinhtong()
+            {
+                return thit * giathit + pho * giapho + hanh * giahanh;
+            }
+
+            public void hienthi(int index)
+            {
+                Console.WriteLine($"{index + 1,-8}{thit,-8}{pho,-8}{hanh,-8}{tinhtong(),-8}");
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            
+
+            try
+            {
+                Console.Write("Nhap so bat pho: ");
+                int n = int.Parse(Console.ReadLine());
+
+                Pho[] ds_pho = new Pho[n];
+
+                for (int i = 0; i < n; i++)
+                {
+                    Console.WriteLine("Nhap du lieu cho bat pho thu "+ (i + 1) + ":");
+                    Console.Write("Luong thit = ");
+                    float thit = float.Parse(Console.ReadLine());
+                    Console.Write("Luong banh pho = ");
+                    float pho = float.Parse(Console.ReadLine());
+                    Console.Write("Luong hanh = ");
+                    float hanh = float.Parse(Console.ReadLine());
+
+                    Pho he = new Pho(thit, pho, hanh);
+                    ds_pho[i]=he;
+                }
+
+                Console.WriteLine("\nThong tin "+n+" bat pho vua nhap la:");
+                Console.WriteLine(String.Format("{0,-8}{1,-8}{2,-8}{3,-8}{4,-8}", "STT", "Thit", "banhpho", "hanh", "thanhtien"));
+
+                for (int i = 0; i <n ; i++)
+                {
+                    ds_pho[i].hienthi(i);
+                }
+
+              
+                float gia_cao_nhat = float.MinValue;
+                float gia_thap_nhat = float.MaxValue;
+                int maxIndex = -1;
+                int minIndex = -1;
+
+                for (int i = 0; i < n; i++)
+                {
+                    float gia = ds_pho[i].tinhtong();
+                    if (gia > gia_cao_nhat)
+                    {
+                        gia_cao_nhat = gia;
+                        maxIndex = i;
+                    }
+                    if (gia < gia_thap_nhat)
+                    {
+                        gia_thap_nhat = gia;
+                        minIndex = i;
+                    }
+                }
+
+
+                Console.WriteLine("\nBat pho thu " + (minIndex+1) + " co gia thap nhat la " + gia_thap_nhat);
+                Console.WriteLine("Bat pho thu "+ (maxIndex+1) +" co gia cao nhat la "+gia_cao_nhat);
+                
+            }
+            catch (IndexOutOfRangeException )
+            {
+                Console.WriteLine("Error: Index out of range");
+            }
+            catch (NullReferenceException )
+            {
+                Console.WriteLine("Error: Null reference");
+            }
+            catch (InvalidCastException )
+            {
+                Console.WriteLine("Error: Invalid cast");
+            }
+            catch (Exception )
+            {
+                Console.WriteLine($"Error: ");
+            }
+            Console.ReadKey();
+        }
+    }
+}
